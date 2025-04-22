@@ -2,25 +2,29 @@ import React from 'react';
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-gray-900 px-6 py-10 space-y-10 max-w-4xl mx-auto">
-      <header className="flex items-center gap-4">
-        <img src="/logo.png" alt="Total Auto Care Group Logo" className="h-16 w-auto" />
-        <div>
-          <h1 className="text-4xl font-bold">Total Auto Care Group</h1>
-          <p className="text-lg text-gray-600">Detailing & Car Carrier Services for Dealerships</p>
-        </div>
+    <div className="min-h-screen bg-dark text-light font-sans">
+      <header className="text-center py-10 bg-black">
+        <img src="/logo.png" alt="Total Auto Care Group Logo" className="mx-auto w-40" />
+        <h1 className="text-4xl font-bold mt-4">Total Auto Care Group</h1>
+        <p className="text-accent text-xl">Detailing & Car Carrier Services for Dealerships</p>
       </header>
 
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Our Services</h2>
-        <ul className="list-disc list-inside space-y-2">
-          <li>Car Dealership Detailing</li>
-          <li>Vehicle Delivery (Car Carrier Services)</li>
-        </ul>
+      <section className="px-6 py-10 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-4 text-accent">Our Services</h2>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="p-4 bg-gray-800 rounded shadow">
+            <h3 className="text-xl font-semibold">🚗 Car Dealership Detailing</h3>
+            <p>Premium detailing services tailored for car dealerships.</p>
+          </div>
+          <div className="p-4 bg-gray-800 rounded shadow">
+            <h3 className="text-xl font-semibold">🚚 Vehicle Delivery</h3>
+            <p>Reliable and efficient car carrier services across WA.</p>
+          </div>
+        </div>
       </section>
 
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">About Us</h2>
+      <section className="px-6 py-10 max-w-4xl mx-auto bg-black">
+        <h2 className="text-2xl font-semibold mb-4 text-accent">About Us</h2>
         <p>
           Total Auto Care Group is a trusted provider of automotive services in Western Australia.
           We specialize in premium car detailing for dealerships and reliable vehicle delivery services.
@@ -28,24 +32,28 @@ function App() {
         </p>
       </section>
 
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Contact</h2>
-        <p>Email: <a href="mailto:contact@totalautocare.au" className="text-blue-600 underline">contact@totalautocare.au</a></p>
-        <p>Phone: <a href="tel:+61477533479" className="text-blue-600 underline">0477 533 479</a></p>
+      <section className="px-6 py-10 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-semibold mb-4 text-accent">Contact</h2>
+        <p>Email: <a href="mailto:contact@totalautocare.au" className="text-blue-400 underline">contact@totalautocare.au</a></p>
+        <p>Phone: <a href="tel:+61477533479" className="text-blue-400 underline">0477 533 479</a></p>
         <p>Location: Perth, WA</p>
         <p className="mt-4">
-          <a href="https://wa.me/61477533479" target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-            Chat with us on WhatsApp
+          <a href="https://wa.me/61477533479" target="_blank" rel="noopener noreferrer" className="text-green-400 underline">
+            💬 Chat with us on WhatsApp
           </a>
         </p>
 
         <form className="mt-6 space-y-4 max-w-lg">
-          <input type="text" placeholder="Your Name" className="w-full p-2 border border-gray-300 rounded" required />
-          <input type="email" placeholder="Your Email" className="w-full p-2 border border-gray-300 rounded" required />
-          <textarea placeholder="Your Message" className="w-full p-2 border border-gray-300 rounded" rows="4" required></textarea>
-          <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Send Message</button>
+          <input type="text" placeholder="Your Name" className="w-full p-2 rounded bg-gray-900 border border-gray-600 text-white" required />
+          <input type="email" placeholder="Your Email" className="w-full p-2 rounded bg-gray-900 border border-gray-600 text-white" required />
+          <textarea placeholder="Your Message" className="w-full p-2 rounded bg-gray-900 border border-gray-600 text-white" rows="4" required></textarea>
+          <button type="submit" className="bg-accent hover:bg-blue-900 text-white px-4 py-2 rounded">Send Message</button>
         </form>
       </section>
+
+      <footer className="text-center text-sm text-gray-500 py-6">
+        © {new Date().getFullYear()} Total Auto Care Group – Perth, WA
+      </footer>
     </div>
   );
 }
