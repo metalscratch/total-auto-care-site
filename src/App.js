@@ -4,7 +4,7 @@ function App() {
   return (
     <div className="min-h-screen bg-dark text-light font-sans">
       <header className="text-center py-10 bg-black">
-        <img src="https://m0g.8b4.myftpupload.com/wp-content/uploads/2015/10/Design-sem-nome.gif" alt="Total Auto Care Group Logo" className="mx-auto w-48 md:w-60 rounded-xl shadow-xl" />
+        <img src="https://m0g.8b4.myftpupload.com/wp-content/uploads/2015/10/Design-sem-nome-1.gif" alt="Total Auto Care Group Logo" className="mx-auto w-48 md:w-60 rounded-xl shadow-xl" />
         <h1 className="text-4xl font-bold mt-4">Total Auto Care Group</h1>
         <p className="text-accent text-xl">Detailing & Car Carrier Services for Dealerships</p>
       </header>
