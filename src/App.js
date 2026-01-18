@@ -4,7 +4,9 @@ function App() {
   return (
     <div className="min-h-screen bg-dark text-light font-sans">
       <header className="text-center py-10 bg-black">
-        <img src="https://m0g.8b4.myftpupload.com/wp-content/uploads/2015/10/ezgif.com-resize.gif" alt="Total Auto Care Group Logo" className="mx-auto w-48 md:w-60 rounded-xl shadow-xl" />
+        <video autoPlay loop muted playsInline className="mx-auto w-48 md:w-60 rounded-xl shadow-xl">
+  <source src="https://m0g.8b4.myftpupload.com/wp-content/uploads/2015/10/Cinematic_logo_animation_202601181759_8w69e-1.mp4" type="video/mp4" />
+</video>
         <h1 className="text-4xl font-bold mt-4">Total Auto Care Group</h1>
         <p className="text-accent text-xl">Detailing & Car Carrier Services for Dealerships</p>
       </header>
