@@ -1,0 +1,49 @@
+/* ─── TRUST BAR (animated ticker) ─── */
+.trust-bar {
+  background: var(--dark-section);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  overflow: hidden;
+  padding: 14px 0;
+}
+
+.trust-bar-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+  animation: ticker 28s linear infinite;
+  width: max-content;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.trust-bar:hover .trust-bar-track {
+  animation-play-state: paused;
+}
+
+.trust-bar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+
+.trust-bar-icon { font-size: 16px; }
+
+.trust-bar-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.01em;
+}
+
+.trust-bar-sep {
+  margin-left: 24px;
+  color: rgba(255,255,255,0.15);
+  font-size: 18px;
+}

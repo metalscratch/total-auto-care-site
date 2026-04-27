@@ -1,0 +1,18 @@
+/* ─── SERVICES ─── */
+.services-header { margin-bottom: 48px; }
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.service-card { position: relative; background: var(--white); border-radius: 22px; border: 1px solid var(--border-light); overflow: hidden; transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.service-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.service-card-accent { height: 4px; background: var(--gold); }
+.service-card-body { padding: 36px; display: flex; flex-direction: column; gap: 20px; }
+.service-card-tag { display: inline-block; background: rgba(201,168,76,0.1); color: var(--gold-dark); border: 1px solid rgba(201,168,76,0.25); border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 12px; align-self: flex-start; }
+.service-card-tag--b2b { background: rgba(30,90,200,0.07); color: #1e5ac8; border-color: rgba(30,90,200,0.15); }
+.service-card-icon { font-size: 44px; line-height: 1; }
+.service-card-title { font-size: 24px; font-weight: 800; color: var(--dark); letter-spacing: -0.02em; line-height: 1.2; }
+.service-card-desc { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+.service-card-points { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.service-card-points li { font-size: 14px; color: var(--dark); font-weight: 500; display: flex; align-items: center; gap: 10px; }
+.service-card-price { font-size: 14.5px; color: var(--text-muted); padding: 14px 18px; background: var(--off-white); border-radius: 10px; }
+.service-card-price strong { color: var(--dark); font-size: 20px; font-weight: 800; }
+.service-card-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+@media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } .service-card-body { padding: 28px 24px; } }

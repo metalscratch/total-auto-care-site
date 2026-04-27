@@ -1,0 +1,12 @@
+/* ─── WHY US ─── */
+.why-us-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+.why-us-copy { position: sticky; top: 100px; }
+.why-us-cta-group { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+.why-us-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.why-us-card { display: flex; gap: 16px; align-items: flex-start; padding: 22px 20px; background: var(--off-white); border-radius: 14px; border: 1px solid var(--border-light); transition: all 0.2s ease; }
+.why-us-card:hover { background: var(--white); box-shadow: var(--shadow-md); border-color: transparent; transform: translateY(-2px); }
+.why-us-icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+.why-us-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; letter-spacing: -0.01em; }
+.why-us-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+@media (max-width: 900px) { .why-us-layout { grid-template-columns: 1fr; gap: 40px; } .why-us-copy { position: static; } }
+@media (max-width: 540px) { .why-us-grid { grid-template-columns: 1fr; } }
