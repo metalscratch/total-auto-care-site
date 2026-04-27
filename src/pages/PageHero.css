@@ -1,0 +1,47 @@
+/* ─── PAGE HERO (shared across interior pages) ─── */
+.page-hero {
+  padding: 140px 0 60px;
+}
+
+.page-hero--dark {
+  background: var(--black);
+  color: var(--white);
+}
+
+.page-hero--gray {
+  background: var(--off-white);
+  color: var(--dark);
+}
+
+.page-hero-title {
+  font-size: clamp(34px, 5vw, 54px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  margin-top: 8px;
+}
+
+.page-hero--dark .page-hero-title { color: var(--white); }
+.page-hero--gray .page-hero-title  { color: var(--dark); }
+
+.page-hero-sub {
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+.page-hero--dark .page-hero-sub { color: rgba(255,255,255,0.55); }
+.page-hero--gray .page-hero-sub { color: var(--text-muted); }
+
+/* Booking alt contact */
+.booking-alt-contact {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: var(--text-muted);
+  padding-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .page-hero { padding: 120px 0 48px; }
+}
