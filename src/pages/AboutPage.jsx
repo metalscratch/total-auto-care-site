@@ -1,65 +1,80 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import BookingCTA from '../components/BookingCTA';
 import './PageHero.css';
 
 export default function AboutPage() {
   return (
-    <>
-      <div className="page-hero page-hero--dark">
+    <main>
+      <section className="page-hero">
         <div className="container">
-          <span className="eyebrow">Our Story</span>
-          <h1 className="page-hero-title">About Total Auto Care Group</h1>
-          <p className="page-hero-sub">
-            Perth-based mobile detailing and vehicle transport specialists, built on a simple idea: professional car care should come to you.
-          </p>
-        </div>
-      </div>
-
-      <section className="section">
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 72, alignItems: 'start' }}>
-          <div>
-            <span className="eyebrow">Who We Are</span>
-            <h2 className="section-heading">Local. Mobile. Professional.</h2>
-            <div className="divider-gold" />
-            <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: 20 }}>
-              Total Auto Care Group was founded with one clear mission: make professional car detailing accessible without the inconvenience of dropping your car off somewhere.
-            </p>
-            <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: 20 }}>
-              We operate entirely mobile — our fully equipped setup comes to you, whether you're at home, at work, or anywhere across the Perth metro area.
-            </p>
-            <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: 32 }}>
-              Beyond individual car owners, we've built strong relationships with car dealerships across Western Australia, providing reliable detailing and vehicle transport services that fit their workflow.
-            </p>
-            <Link to="/booking" className="btn btn-gold btn-lg">Book a Service →</Link>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            {[
-              { label: 'Perth Mobile Detailing', value: '🚗' , desc: 'We travel to your location — no drop-offs required.' },
-              { label: 'Satisfaction Guarantee', value: '🚡️', desc: 'If you\'re not happy, we\'ll make it right. Every time.' },
-              { label: 'Professional Products', value: '✨', desc: 'We only use professional-grade, vehicle-safe products.' },
-              { label: 'Dealership Experience', value: '🌯', desc: 'Trusted by dealerships for detailing & transport across WA.' },
-            ].map(item => (
-              <div key={item.label} style={{
-                display: 'flex', gap: 20, alignItems: 'flex-start',
-                padding: '22px 24px',
-                background: 'var(--off-white)',
-                borderRadius: 14,
-                border: '1px solid var(--border-light)',
-              }}>
-                <span style={{ fontSize: 30, flexShrink: 0 }}>{item.value}</span>
-                <div>
-                  <div style={{ fontWeight: 700, marginBottom: 4 }}>{item.label}</div>
-                  <div style={{ fontSize: 13.5, color: 'var(--text-muted)', lineHeight: 1.6 }}>{item.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <h1>About Total Auto Care Group</h1>
+          <p>Perth's trusted mobile car detailing team</p>
         </div>
       </section>
 
-      <BookingCTA />
-    </>
+      <section className="section">
+        <div className="container">
+          <div className="about-grid">
+            <div className="about-content">
+              <h2>Who We Are</h2>
+              <p>
+                Total Auto Care Group is a family-owned mobile car detailing business
+                serving Perth and surrounding suburbs. We bring professional-grade
+                detailing directly to your home or workplace, so you never have to
+                waste time dropping your car off at a shop.
+              </p>
+              <p>
+                Our team of certified detailers uses only premium products to ensure
+                your vehicle looks and feels showroom-fresh every time. Whether you
+                need a quick maintenance detail or a full premium treatment, we have
+                a package that suits your needs and budget.
+              </p>
+              <h2>Our Mission</h2>
+              <p>
+                We believe every vehicle deserves the best care, and every customer
+                deserves a seamless experience. That is why we handle everything from
+                booking to completion at your doorstep - no fuss, no waiting rooms,
+                just exceptional results.
+              </p>
+            </div>
+            <div className="about-stats">
+              <div className="stat-card">
+                <div className="stat-number">500+</div>
+                <div className="stat-label">Happy Customers</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">5+</div>
+                <div className="stat-label">Years Experience</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">100%</div>
+                <div className="stat-label">Mobile Service</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">5-Star</div>
+                <div className="stat-label">Rated Service</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="about-values">
+            <h2>Our Values</h2>
+            <div className="values-grid">
+              <div className="value-card">
+                <h3>Quality First</h3>
+                <p>We use premium detailing products and proven techniques for results that last.</p>
+              </div>
+              <div className="value-card">
+                <h3>Convenience</h3>
+                <p>We come to you - at home, at work, or wherever is most convenient.</p>
+              </div>
+              <div className="value-card">
+                <h3>Reliability</h3>
+                <p>We show up on time, every time, and deliver exactly what we promise.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

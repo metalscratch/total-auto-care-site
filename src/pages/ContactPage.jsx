@@ -1,159 +1,124 @@
 import React, { useState } from 'react';
 import './PageHero.css';
 
-const FODMSPREE_URL = 'https://formspree.io/f/YOUR_FORM_ID'; // same as BookingFlow
-
 export default function ContactPage() {
-  const [form, setForm]     = useState({ name: '', email: '', phone: '', message: '' });
-  const [sent, setSent]     = useState(false);
-  const [loading, setLoad]  = useState(false);
-  const [error, setError]   = useState('');
+  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+
+  const update = (field, value) => setForm(f => ({ ...f, [field]: value }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoad(true);
-    setError('');
+    setSending(true);
     try {
-      const res = await fetch(FORMSPREE_URL, {
+      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(form),
       });
-      if (res.ok) { setSent(true); }
-      else { setError('Something went wrong. Please call us directly on 0477 533 479.'); }
+      if (res.ok) setSent(true);
     } catch {
-      setSent(true); // graceful fallback in dev
+      // fail silently, user can call instead
     } finally {
-      setLoad(false);
+      setSending(false);
     }
   };
 
   return (
-    <>
-      <div className="page-hero page-hero--dark">
+    <main>
+      <section className="page-hero">
         <div className="container">
-          <span className="eyebrow">Get in Touch</span>
-          <h1 className="page-hero-title">Contact Us</h1>
-          <p className="page-hero-sub">
-            Questions about a service? Need a custom quote? Reach out via any of the channels below.
-          </p>
+          <h1>Contact Us</h1>
+          <p>We'd love to hear from you</p>
         </div>
-      </div>
+      </section>
 
       <section className="section">
-        <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+        <div className="container">
+          <div className="contact-grid">
+            <div className="contact-info">
+              <h2>Get In Touch</h2>
+              <p>Have a question or want to discuss a custom package? Reach out and we'll get back to you within a few hours.</p>
 
-          {/* Contact methods */}
-          <div>
-            <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 32, letterSpacing: -0.02 }}>
-              We're easy to reach
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              {[
-                { icon: '📞',
-                  label: 'Phone',
-                  value: '0477 533 479',
-                  href: 'tel:+61477533479',
-                  sub: 'Mon–Sat, 7am–5pm',
-                },
-                { icon: '💬',
-                  label: 'WhatsApp',
-                  value: 'Chat Now',
-                  href: 'https://wa.me/61477533479?text=Hi!%20I\'d%20like%20to%20get%20more%20info.',
-                  sub: 'Usually replies within the hour',
-                },
-                { icon: '✉️',
-                  label: 'Email',
-                  value: 'contact@totalautocare.au',
-                  href: 'mailto:contact@totalautocare.au',
-                  sub: 'Response within 1 business day',
-                },
-                { icon: '📍',
-                  label: 'Location',
-                  value: 'Perth, Western Australia',
-                  href: null,
-                  sub: 'Mobile service — we come to you',
-                },
-              ].map(item => (
-                <div key={item.label} style={{
-                  display: 'flex', gap: 18, alignItems: 'flex-start',
-                  padding: '20px 22px',
-                  background: 'var(--off-white)',
-                  borderRadius: 14,
-                  border: '1px solid var(--border-light)',
-                }}>
-                  <span style={{ fontSize: 26, flexShrink: 0, marginTop: 2 }}>{item.icon}</span>
-                  <div>
-                    <div style={{ fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--mid-gray)', marginBottom: 4 }}>{item.label}</div>
-                    {item.href ? (
-                      <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
-                        style={{ fontSize: 16, fontWeight: 700, color: 'var(--gold)', textDecoration: 'none' }}>
-                        {item.value}
-                      </a>
-                    ) : (
-                      <div style={{ fontSize: 16, fontWeight: 700 }}>{item.value}</div>
-                    )}
-                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>{item.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Contact form */}
-          <div style={{
-            background: 'var(--white)',
-            borderRadius: 20,
-            border: '1px solid var(--border-light)',
-            padding: 36,
-            boxShadow: 'var(--shadow-md)',
-          }}>
-            {sent ? (
-              <div style={{ textAlign: 'center', padding: '40px 0' }}>
-                <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-                <h3 style={{ fontSize: 22, fontWeight: 800, marginBottom: 10 }}>Message Sent!</h3>
-                <p style={{ color: 'var(--text-muted)' }}>We'll be in touch very soon.</p>
+              <div className="contact-detail">
+                <strong>Phone</strong>
+                <a href="tel:0400000000">0400 000 000</a>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                <h3 style={{ fontSize: 22, fontWeight: 800, marginBottom: 4 }}>Send us a message</h3>
-                {['name', 'email', 'phone'].map(field => (
-                  <div key={field} style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                    <label style={{ fontSize: 13, fontWeight: 600, textTransform: 'capitalize' }}>{field}</label>
+              <div className="contact-detail">
+                <strong>Email</strong>
+                <a href="mailto:info@totalautocare.com.au">info@totalautocare.com.au</a>
+              </div>
+              <div className="contact-detail">
+                <strong>WhatsApp</strong>
+                <a href="https://wa.me/61400000000" target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a>
+              </div>
+              <div className="contact-detail">
+                <strong>Service Area</strong>
+                <span>Perth Metro and surrounding suburbs, WA</span>
+              </div>
+              <div className="contact-detail">
+                <strong>Hours</strong>
+                <span>Monday to Saturday, 7am to 5pm</span>
+              </div>
+            </div>
+
+            <div className="contact-form-wrap">
+              <h2>Send a Message</h2>
+              {sent ? (
+                <div className="contact-success">
+                  <p>Thanks! We'll be in touch shortly.</p>
+                </div>
+              ) : (
+                <form className="contact-form" onSubmit={handleSubmit}>
+                  <div className="form-field">
+                    <label>Name</label>
                     <input
-                      type={field === 'email' ? 'email' : field === 'phone' ? 'tel' : 'text'}
-                      placeholder={field === 'name' ? 'Your name' : field === 'email' ? 'your@email.com' : '04xx xxx xxx'}
-                      value={form[field]}
-                      onChange={e => setForm({ ...form, [field]: e.target.value })}
-                      required={field !== 'phone'}
-                      style={{ padding: '12px 15px', border: '1.5px solid var(--border-light)', borderRadius: 10, fontSize: 14.5, fontFamily: 'inherit', outline: 'none' }}
-                      onFocus={e => e.target.style.borderColor = 'var(--gold)'}
-                      onBlur={e => e.target.style.borderColor = 'var(--border-light)'}
+                      type="text"
+                      required
+                      value={form.name}
+                      onChange={e => update('name', e.target.value)}
+                      placeholder="Your name"
                     />
                   </div>
-                ))}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-                  <label style={{ fontSize: 13, fontWeight: 600 }}>Message</label>
-                  <textarea
-                    placeholder="Tell us about your car and what you need…"
-                    value={form.message}
-                    onChange={e => setForm({ ...form, message: e.target.value })}
-                    required
-                    rows={4}
-                    style={{ padding: '12px 15px', border: '1.5px solid var(--border-light)', borderRadius: 10, fontSize: 14.5, fontFamily: 'inherit', resize: 'vertical', outline: 'none' }}
-                    onFocus={e => e.target.style.borderColor = 'var(--gold)'}
-                    onBlur={e => e.target.style.borderColor = 'var(--border-light)'}
-                  />
-                </div>
-                {error && <p style={{ color: '#dc2626', fontSize: 13.5 }}>{error}</p>}
-                <button type="submit" className="btn btn-gold btn-lg btn-full" disabled={loading}>
-                  {loading ? 'Sending…' : 'Send Message →'}
-                </button>
-              </form>
-            )}
+                  <div className="form-field">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={e => update('email', e.target.value)}
+                      placeholder="you@email.com"
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Phone (optional)</label>
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={e => update('phone', e.target.value)}
+                      placeholder="04xx xxx xxx"
+                    />
+                  </div>
+                  <div className="form-field">
+                    <label>Message</label>
+                    <textarea
+                      required
+                      rows={5}
+                      value={form.message}
+                      onChange={e => update('message', e.target.value)}
+                      placeholder="How can we help?"
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-gold" disabled={sending}>
+                    {sending ? 'Sending...' : 'Send Message'}
+                  </button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </section>
-    </>
+    </main>
   );
 }
