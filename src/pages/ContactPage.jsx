@@ -1,124 +1,102 @@
-import React, { useState } from 'react';
-import './PageHero.css';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
-  const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState('');
 
-  const update = (field, value) => setForm(f => ({ ...f, [field]: value }));
+  const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSending(true);
+    setStatus('sending');
     try {
       const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, _subject: 'Contact Form Enquiry' }),
       });
-      if (res.ok) setSent(true);
+      setStatus(res.ok ? 'sent' : 'error');
     } catch {
-      // fail silently, user can call instead
-    } finally {
-      setSending(false);
+      setStatus('error');
     }
   };
 
   return (
-    <main>
+    <div className="contact-page">
       <section className="page-hero">
         <div className="container">
           <h1>Contact Us</h1>
-          <p>We'd love to hear from you</p>
+          <p>We'd love to hear from you. Reach out any time.</p>
         </div>
       </section>
 
       <section className="section">
-        <div className="container">
-          <div className="contact-grid">
-            <div className="contact-info">
-              <h2>Get In Touch</h2>
-              <p>Have a question or want to discuss a custom package? Reach out and we'll get back to you within a few hours.</p>
+        <div className="container contact-grid">
 
+          <div className="contact-info">
+            <h2>Get in Touch</h2>
+            <p>Have a question or want to book a service? Contact us via any of the options below and we'll get back to you promptly.</p>
+
+            <div className="contact-details">
               <div className="contact-detail">
-                <strong>Phone</strong>
-                <a href="tel:0400000000">0400 000 000</a>
+                <span className="contact-label">Phone</span>
+                <a href="tel:+61477533479">0477 533 479</a>
               </div>
               <div className="contact-detail">
-                <strong>Email</strong>
-                <a href="mailto:info@totalautocare.com.au">info@totalautocare.com.au</a>
+                <span className="contact-label">Email</span>
+                <a href="mailto:contact@totalautocare.au">contact@totalautocare.au</a>
               </div>
               <div className="contact-detail">
-                <strong>WhatsApp</strong>
-                <a href="https://wa.me/61400000000" target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a>
+                <span className="contact-label">WhatsApp</span>
+                <a href="https://wa.me/61477533479?text=Hi" target="_blank" rel="noreferrer">Message us on WhatsApp</a>
               </div>
               <div className="contact-detail">
-                <strong>Service Area</strong>
+                <span className="contact-label">Service Area</span>
                 <span>Perth Metro and surrounding suburbs, WA</span>
               </div>
               <div className="contact-detail">
-                <strong>Hours</strong>
+                <span className="contact-label">Hours</span>
                 <span>Monday to Saturday, 7am to 5pm</span>
               </div>
             </div>
-
-            <div className="contact-form-wrap">
-              <h2>Send a Message</h2>
-              {sent ? (
-                <div className="contact-success">
-                  <p>Thanks! We'll be in touch shortly.</p>
-                </div>
-              ) : (
-                <form className="contact-form" onSubmit={handleSubmit}>
-                  <div className="form-field">
-                    <label>Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={form.name}
-                      onChange={e => update('name', e.target.value)}
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div className="form-field">
-                    <label>Email</label>
-                    <input
-                      type="email"
-                      required
-                      value={form.email}
-                      onChange={e => update('email', e.target.value)}
-                      placeholder="you@email.com"
-                    />
-                  </div>
-                  <div className="form-field">
-                    <label>Phone (optional)</label>
-                    <input
-                      type="tel"
-                      value={form.phone}
-                      onChange={e => update('phone', e.target.value)}
-                      placeholder="04xx xxx xxx"
-                    />
-                  </div>
-                  <div className="form-field">
-                    <label>Message</label>
-                    <textarea
-                      required
-                      rows={5}
-                      value={form.message}
-                      onChange={e => update('message', e.target.value)}
-                      placeholder="How can we help?"
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-gold" disabled={sending}>
-                    {sending ? 'Sending...' : 'Send Message'}
-                  </button>
-                </form>
-              )}
-            </div>
           </div>
+
+          <div className="contact-form-wrap">
+            <h2>Send a Message</h2>
+            {status === 'sent' ? (
+              <div className="form-success">
+                <p>Thanks! We'll be in touch shortly.</p>
+                <Link to="/booking" className="btn btn-gold">Book a Service</Link>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="contact-form">
+                <div className="form-group">
+                  <label>Your name</label>
+                  <input type="text" placeholder="Your name" value={form.name} onChange={e => update('name', e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input type="email" placeholder="you@email.com" value={form.email} onChange={e => update('email', e.target.value)} required />
+                </div>
+                <div className="form-group">
+                  <label>Phone</label>
+                  <input type="tel" placeholder="04xx xxx xxx" value={form.phone} onChange={e => update('phone', e.target.value)} />
+                </div>
+                <div className="form-group">
+                  <label>How can we help?</label>
+                  <textarea placeholder="How can we help?" rows={5} value={form.message} onChange={e => update('message', e.target.value)} required />
+                </div>
+                {status === 'error' && <p className="form-error">Something went wrong. Please try again or call us directly.</p>}
+                <button type="submit" className="btn btn-gold" disabled={status === 'sending'}>
+                  {status === 'sending' ? 'Sending...' : 'Send Message'}
+                </button>
+              </form>
+            )}
+          </div>
+
         </div>
       </section>
-    </main>
+    </div>
   );
 }
