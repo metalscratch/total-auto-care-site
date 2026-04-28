@@ -1,101 +1,49 @@
-import React, { useState } from 'react';
-import './BookingFlow.css';
-
-const SERVICES = [
-  {
-    id: 'maintenance',
-    name: 'Maintenance Detail',
-    desc: 'Exterior wash, interior vacuum & wipe-down. Perfect for regular upkeep.',
-    price: 'From $159',
-  },
-  {
-    id: 'full',
-    name: 'Full Detail',
-    desc: 'Full interior & exterior detail. Includes polish, wax and leather conditioning.',
-    price: 'From $299',
-  },
-  {
-    id: 'premium',
-    name: 'Premium Detail',
-    desc: 'Everything in Full Detail plus paint decontamination and ceramic coating prep.',
-    price: 'From $499',
-  },
-  {
-    id: 'transport',
-    name: 'Vehicle Transport',
-    desc: 'Safe, enclosed transport across Perth and surrounds.',
-    price: 'Get a Quote',
-  },
-];
-
-const VEHICLE_SIZES = [
-  { id: 'small', label: 'Small (Hatch / Sedan)' },
-  { id: 'medium', label: 'Medium (SUV / Wagon)' },
-  { id: 'large', label: 'Large (4WD / Van / Ute)' },
-];
+import { useState } from 'react';
 
 const STEPS = ['Service', 'Vehicle', 'Schedule', 'Details', 'Confirm'];
 
-const initialForm = {
-  service: '',
-  vehicleMake: '',
-  vehicleModel: '',
-  vehicleSize: '',
-  date: '',
-  time: '',
-  address: '',
-  suburb: '',
-  name: '',
-  email: '',
-  phone: '',
-  notes: '',
+const SERVICES = [
+  { id: 'maintenance', name: 'Maintenance Detail', desc: 'Exterior wash, interior vacuum & wipe-down. Perfect for regular upkeep.', price: 'From $159' },
+  { id: 'full',        name: 'Full Detail',        desc: 'Full interior & exterior detail. Includes polish, wax and leather conditioning.', price: 'From $299' },
+  { id: 'premium',     name: 'Premium Detail',     desc: 'Everything in Full Detail plus paint decontamination and ceramic coating prep.', price: 'From $499' },
+  { id: 'transport',   name: 'Vehicle Transport',  desc: 'Safe, enclosed transport across Perth and surrounds.', price: 'Get a Quote' },
+];
+
+const TIMES = ['7:00 AM','8:00 AM','9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM','2:00 PM','3:00 PM','4:00 PM'];
+
+const INIT = {
+  service: '', vehicleMake: '', vehicleModel: '', vehicleSize: '',
+  date: '', time: '', address: '', suburb: '',
+  name: '', email: '', phone: '', notes: '',
 };
 
 export default function BookingFlow() {
-  const [step, setStep] = useState(0);
-  const [form, setForm] = useState(initialForm);
+  const [step, setStep]           = useState(0);
+  const [form, setForm]           = useState(INIT);
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [sending, setSending]     = useState(false);
 
-  const update = (field, value) => setForm(f => ({ ...f, [field]: value }));
+  const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
-  const canProceed = () => {
-    if (step === 0) return !!form.service;
-    if (step === 1) return form.vehicleMake && form.vehicleModel && form.vehicleSize;
-    if (step === 2) return form.date && form.time && form.address && form.suburb;
-    if (step === 3) return form.name && form.email && form.phone;
-    return true;
-  };
+  const canProceed = [
+    !!form.service,
+    !!(form.vehicleMake && form.vehicleModel && form.vehicleSize),
+    !!(form.date && form.time && form.address && form.suburb),
+    !!(form.name && form.email && form.phone),
+    true,
+  ][step];
 
   const handleSubmit = async () => {
-    setSubmitting(true);
-    setError('');
+    setSending(true);
     try {
-      const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          service: form.service,
-          vehicle: `${form.vehicleMake} ${form.vehicleModel} (${form.vehicleSize})`,
-          date: form.date,
-          time: form.time,
-          address: `${form.address}, ${form.suburb}`,
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          notes: form.notes,
-        }),
+        body: JSON.stringify({ ...form, _subject: 'New Booking Request' }),
       });
-      if (res.ok) {
-        setSubmitted(true);
-      } else {
-        setError('Something went wrong. Please call us on 0400 000 000.');
-      }
+      setSubmitted(true);
     } catch {
-      setError('Network error. Please call us on 0400 000 000.');
-    } finally {
-      setSubmitting(false);
+      setSending(false);
     }
   };
 
@@ -103,278 +51,174 @@ export default function BookingFlow() {
     return (
       <div className="booking-success">
         <div className="booking-success__icon">&#10003;</div>
-        <h2>Booking Request Received!</h2>
-        <p>
-          Thanks, <strong>{form.name}</strong>. We will confirm your{' '}
-          <strong>{SERVICES.find(s => s.id === form.service)?.name}</strong> on{' '}
-          <strong>{form.date}</strong> at <strong>{form.time}</strong> via email or phone within
-          2 hours.
-        </p>
-        <p className="booking-success__address">
-          Service location: {form.address}, {form.suburb}
-        </p>
+        <h2>Booking Request Sent!</h2>
+        <p>Thanks {form.name}! We'll confirm your booking within a couple of hours.</p>
+        <a href="/" className="btn btn-gold">Back to Home</a>
       </div>
     );
   }
 
   return (
     <div className="booking-flow">
-      {/* Progress bar */}
-      <div className="booking-steps">
+
+      <div className="booking-progress">
         {STEPS.map((label, i) => (
-          <div
-            key={label}
-            className={`booking-step ${i < step ? 'done' : ''} ${i === step ? 'active' : ''}`}
-          >
-            <div className="booking-step__dot">
-              {i < step ? <span>&#10003;</span> : <span>{i + 1}</span>}
+          <div key={i}
+            className={`progress-step${i === step ? ' active' : ''}${i < step ? ' done' : ''}`}
+            onClick={() => i < step && setStep(i)}>
+            <div className="progress-dot">
+              {i < step ? <span>&#10003;</span> : i + 1}
             </div>
-            <span className="booking-step__label">{label}</span>
+            <span className="progress-label">{label}</span>
           </div>
         ))}
       </div>
 
-      {/* Step 0: Service */}
-      {step === 0 && (
-        <div className="booking-panel">
-          <h3 className="booking-panel__title">Choose Your Service</h3>
-          <div className="service-cards">
-            {SERVICES.map(svc => (
-              <button
-                key={svc.id}
-                type="button"
-                className={`service-card ${form.service === svc.id ? 'selected' : ''}`}
-                onClick={() => update('service', svc.id)}
-              >
-                <div className="service-card__name">{svc.name}</div>
-                <div className="service-card__desc">{svc.desc}</div>
-                <div className="service-card__price">{svc.price}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      <div className="booking-body">
 
-      {/* Step 1: Vehicle */}
-      {step === 1 && (
-        <div className="booking-panel">
-          <h3 className="booking-panel__title">Your Vehicle</h3>
-          <div className="booking-fields">
-            <div className="booking-field">
-              <label>Make</label>
-              <input
-                type="text"
-                placeholder="e.g. Toyota"
-                value={form.vehicleMake}
-                onChange={e => update('vehicleMake', e.target.value)}
-              />
-            </div>
-            <div className="booking-field">
-              <label>Model</label>
-              <input
-                type="text"
-                placeholder="e.g. Hilux"
-                value={form.vehicleModel}
-                onChange={e => update('vehicleModel', e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="booking-field">
-            <label>Vehicle Size</label>
-            <div className="size-options">
-              {VEHICLE_SIZES.map(sz => (
-                <button
-                  key={sz.id}
-                  type="button"
-                  className={`size-option ${form.vehicleSize === sz.id ? 'selected' : ''}`}
-                  onClick={() => update('vehicleSize', sz.id)}
-                >
-                  {sz.label}
+        {step === 0 && (
+          <div className="booking-step-content">
+            <h2>Choose Your Service</h2>
+            <div className="service-cards">
+              {SERVICES.map(s => (
+                <button key={s.id}
+                  className={`service-card${form.service === s.id ? ' selected' : ''}`}
+                  onClick={() => update('service', s.id)}>
+                  <div className="service-card__name">{s.name}</div>
+                  <div className="service-card__desc">{s.desc}</div>
+                  <div className="service-card__price">{s.price}</div>
                 </button>
               ))}
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Step 2: Schedule & Address */}
-      {step === 2 && (
-        <div className="booking-panel">
-          <h3 className="booking-panel__title">Date, Time &amp; Location</h3>
-          <p className="booking-panel__sub">We come to you - home or workplace.</p>
-          <div className="booking-fields">
-            <div className="booking-field">
-              <label>Preferred Date</label>
-              <input
-                type="date"
-                value={form.date}
-                min={new Date().toISOString().split('T')[0]}
-                onChange={e => update('date', e.target.value)}
-              />
-            </div>
-            <div className="booking-field">
-              <label>Preferred Time</label>
-              <select value={form.time} onChange={e => update('time', e.target.value)}>
-                <option value="">Select a time</option>
-                <option value="7:00am">7:00am</option>
-                <option value="8:00am">8:00am</option>
-                <option value="9:00am">9:00am</option>
-                <option value="10:00am">10:00am</option>
-                <option value="11:00am">11:00am</option>
-                <option value="12:00pm">12:00pm</option>
-                <option value="1:00pm">1:00pm</option>
-                <option value="2:00pm">2:00pm</option>
-                <option value="3:00pm">3:00pm</option>
-              </select>
-            </div>
-          </div>
-          <div className="booking-field">
-            <label>Street Address</label>
-            <input
-              type="text"
-              placeholder="e.g. 12 Smith Street"
-              value={form.address}
-              onChange={e => update('address', e.target.value)}
-            />
-          </div>
-          <div className="booking-field">
-            <label>Suburb</label>
-            <input
-              type="text"
-              placeholder="e.g. Joondalup"
-              value={form.suburb}
-              onChange={e => update('suburb', e.target.value)}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Step 3: Contact Details */}
-      {step === 3 && (
-        <div className="booking-panel">
-          <h3 className="booking-panel__title">Your Details</h3>
-          <div className="booking-fields">
-            <div className="booking-field">
-              <label>Full Name</label>
-              <input
-                type="text"
-                placeholder="Your name"
-                value={form.name}
-                onChange={e => update('name', e.target.value)}
-              />
-            </div>
-            <div className="booking-field">
-              <label>Email</label>
-              <input
-                type="email"
-                placeholder="you@email.com"
-                value={form.email}
-                onChange={e => update('email', e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="booking-field">
-            <label>Phone</label>
-            <input
-              type="tel"
-              placeholder="04xx xxx xxx"
-              value={form.phone}
-              onChange={e => update('phone', e.target.value)}
-            />
-          </div>
-          <div className="booking-field">
-            <label>Special Requests (optional)</label>
-            <textarea
-              placeholder="Anything we should know?"
-              rows={3}
-              value={form.notes}
-              onChange={e => update('notes', e.target.value)}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Step 4: Confirm */}
-      {step === 4 && (
-        <div className="booking-panel">
-          <h3 className="booking-panel__title">Confirm Your Booking</h3>
-          <div className="booking-summary">
-            <div className="summary-row">
-              <span>Service</span>
-              <strong>{SERVICES.find(s => s.id === form.service)?.name}</strong>
-            </div>
-            <div className="summary-row">
-              <span>Vehicle</span>
-              <strong>
-                {form.vehicleMake} {form.vehicleModel} ({form.vehicleSize})
-              </strong>
-            </div>
-            <div className="summary-row">
-              <span>Date &amp; Time</span>
-              <strong>
-                {form.date} at {form.time}
-              </strong>
-            </div>
-            <div className="summary-row">
-              <span>Location</span>
-              <strong>
-                {form.address}, {form.suburb}
-              </strong>
-            </div>
-            <div className="summary-row">
-              <span>Name</span>
-              <strong>{form.name}</strong>
-            </div>
-            <div className="summary-row">
-              <span>Email</span>
-              <strong>{form.email}</strong>
-            </div>
-            <div className="summary-row">
-              <span>Phone</span>
-              <strong>{form.phone}</strong>
-            </div>
-            {form.notes && (
-              <div className="summary-row">
-                <span>Notes</span>
-                <strong>{form.notes}</strong>
+        {step === 1 && (
+          <div className="booking-step-content">
+            <h2>Your Vehicle</h2>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Make</label>
+                <input type="text" placeholder="e.g. Toyota"
+                  value={form.vehicleMake} onChange={e => update('vehicleMake', e.target.value)} />
               </div>
-            )}
+              <div className="form-group">
+                <label>Model</label>
+                <input type="text" placeholder="e.g. Hilux"
+                  value={form.vehicleModel} onChange={e => update('vehicleModel', e.target.value)} />
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Vehicle Size</label>
+              <div className="size-options">
+                {[['small','Small (Hatch / Sedan)'],['medium','Medium (SUV / Wagon)'],['large','Large (4WD / Van / Ute)']].map(([val, lbl]) => (
+                  <button key={val}
+                    className={`size-option${form.vehicleSize === val ? ' selected' : ''}`}
+                    onClick={() => update('vehicleSize', val)}>{lbl}</button>
+                ))}
+              </div>
+            </div>
           </div>
-          {error && <p className="booking-error">{error}</p>}
-        </div>
-      )}
+        )}
 
-      {/* Navigation */}
-      <div className="booking-nav">
-        {step > 0 && (
-          <button
-            type="button"
-            className="btn btn-outline"
-            onClick={() => setStep(s => s - 1)}
-          >
-            Back
-          </button>
+        {step === 2 && (
+          <div className="booking-step-content">
+            <h2>Date, Time & Location</h2>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Preferred Date</label>
+                <input type="date" value={form.date}
+                  min={new Date().toISOString().split('T')[0]}
+                  onChange={e => update('date', e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Preferred Time</label>
+                <select value={form.time} onChange={e => update('time', e.target.value)}>
+                  <option value="">Select a time</option>
+                  {TIMES.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Street Address</label>
+              <input type="text" placeholder="e.g. 12 Smith Street"
+                value={form.address} onChange={e => update('address', e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Suburb</label>
+              <input type="text" placeholder="e.g. Joondalup"
+                value={form.suburb} onChange={e => update('suburb', e.target.value)} />
+            </div>
+          </div>
         )}
-        {step < 4 ? (
-          <button
-            type="button"
-            className={`btn btn-gold ${!canProceed() ? 'btn-disabled' : ''}`}
-            disabled={!canProceed()}
-            onClick={() => setStep(s => s + 1)}
-          >
-            Next
-          </button>
-        ) : (
-          <button
-            type="button"
-            className="btn btn-gold"
-            disabled={submitting}
-            onClick={handleSubmit}
-          >
-            {submitting ? 'Submitting...' : 'Confirm Booking'}
-          </button>
+
+        {step === 3 && (
+          <div className="booking-step-content">
+            <h2>Your Details</h2>
+            <div className="form-group">
+              <label>Full Name</label>
+              <input type="text" placeholder="Your name"
+                value={form.name} onChange={e => update('name', e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Email</label>
+              <input type="email" placeholder="you@email.com"
+                value={form.email} onChange={e => update('email', e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Phone</label>
+              <input type="tel" placeholder="04xx xxx xxx"
+                value={form.phone} onChange={e => update('phone', e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Special Requests (optional)</label>
+              <textarea placeholder="Anything we should know?" rows={4}
+                value={form.notes} onChange={e => update('notes', e.target.value)} />
+            </div>
+          </div>
         )}
+
+        {step === 4 && (
+          <div className="booking-step-content">
+            <h2>Confirm Your Booking</h2>
+            <div className="booking-summary">
+              <p><strong>Service</strong><span>{SERVICES.find(s => s.id === form.service)?.name}</span></p>
+              <p><strong>Vehicle</strong><span>{form.vehicleMake} {form.vehicleModel} ({form.vehicleSize})</span></p>
+              <p><strong>Date &amp; Time</strong><span>{form.date} at {form.time}</span></p>
+              <p><strong>Location</strong><span>{form.address}, {form.suburb}</span></p>
+              <p><strong>Name</strong><span>{form.name}</span></p>
+              <p><strong>Email</strong><span>{form.email}</span></p>
+              <p><strong>Phone</strong><span>{form.phone}</span></p>
+              {form.notes && <p><strong>Notes</strong><span>{form.notes}</span></p>}
+            </div>
+          </div>
+        )}
+
+        <div className="booking-nav">
+          {step > 0 && (
+            <button className="btn btn-outline" onClick={() => setStep(s => s - 1)}>
+              &larr; Back
+            </button>
+          )}
+          {step < 4 ? (
+            <button className="btn btn-gold" disabled={!canProceed}
+              onClick={() => setStep(s => s + 1)}>
+              Next &rarr;
+            </button>
+          ) : (
+            <button className="btn btn-gold" disabled={!canProceed || sending}
+              onClick={handleSubmit}>
+              {sending ? 'Sending…' : 'Confirm Booking'}
+            </button>
+          )}
+        </div>
       </div>
+
+      <p className="booking-footer-note">
+        Prefer to talk? Call us directly on{' '}
+        <a href="tel:+61477533479">0477 533 479</a> or{' '}
+        <a href="https://wa.me/61477533479" target="_blank" rel="noreferrer">message us on WhatsApp</a>.
+      </p>
     </div>
   );
 }
