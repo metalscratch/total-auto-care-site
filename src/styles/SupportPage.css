@@ -1,358 +1,201 @@
-.support-container {
-    min-height: 100vh;
-  background: #fff;
-    padding: 60px 20px;
+/* ============================================================
+   SupportPage.css – Total Auto Care Group
+   ============================================================ */
+
+.support-page {
+  min-height: 100vh;
+  background: #0a0a0a;
+  color: #f0f0f0;
 }
 
-.support-header {
-    text-align: center;
-  margin-bottom: 60px;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+/* ── Hero ─────────────────────────────────────────────── */
+.support-hero {
+  background: linear-gradient(135deg, #111 0%, #1a1500 100%);
+  border-bottom: 1px solid #2a2a2a;
+  padding: 100px 20px 60px;
+  text-align: center;
 }
 
-.support-header h1 {
-    font-size: 2.5rem;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 15px;
-}
-
-.support-header p {
-    font-size: 1.1rem;
-  color: #666;
-}
-
-.support-content {
-    max-width: 1000px;
+.support-hero-inner {
+  max-width: 700px;
   margin: 0 auto;
 }
 
-.support-section {
-    margin-bottom: 60px;
+.support-hero-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #fff;
+  margin: 0 0 12px;
 }
 
-.support-section h2 {
-    font-size: 2rem;
-  font-weight: 700;
-  color: #000;
-  margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 3px solid #d4af37;
-    }
-
-.contact-grid {
-      display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  margin-top: 30px;
-  }
-
-.contact-item {
-    text-align: center;
-  padding: 30px;
-  background: #f9f9f9;
-    border-radius: 12px;
-  border-top: 3px solid #d4af37;
-  transition: all 0.3s ease;
+.support-hero-subtitle {
+  font-size: 1.1rem;
+  color: #aaa;
+  margin: 0 0 32px;
+  line-height: 1.6;
 }
 
-.contact-item:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
+.support-contact-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.support-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #d4af37;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+a.support-contact-item:hover {
+  color: #e6c348;
 }
 
 .contact-icon {
-    font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
-.contact-item h3 {
-    font-size: 1.2rem;
-  color: #000;
-  margin-bottom: 10px;
-}
-
-.contact-item p {
-    font-size: 1rem;
-  color: #333;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.contact-item a {
-    color: #d4af37;
-    text-decoration: none;
-  font-weight: 600;
-}
-
-.contact-item a:hover {
-    text-decoration: underline;
-}
-
-.faq-section {
-    background: #f9f9f9;
-    padding: 40px;
-  border-radius: 12px;
-}
-
-.faq-section h2 {
-    color: #000;
-  border-bottom-color: #d4af37;
-      margin-top: 0;
-}
-
-.faq-card {
-    background: #fff;
-    padding: 30px;
-  border-radius: 12px;
-  border-left: 4px solid #d4af37;
-  margin-bottom: 25px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.faq-card h3 {
-    font-size: 1.3rem;
-  color: #000;
-  margin-bottom: 15px;
-  margin-top: 0;
-}
-
-.faq-card p {
-    font-size: 0.95rem;
-  color: #333;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-.faq-card ul {
-  list-style: none;
-  padding: 0;
-  margin: 15px 0;
-}
-
-.faq-card li {
-    font-size: 0.95rem;
-  color: #333;
-  padding: 10px 0 10px 25px;
-  position: relative;
-  line-height: 1.5;
-}
-
-.faq-card li:before {
-    content: '✓';
-  position: absolute;
-  left: 0;
-  color: #d4af37;
-    font-weight: bold;
-}
-
-.faq-contact,
-  .faq-tip,
-  .faq-note {
-    font-size: 0.9rem;
-  padding: 12px 15px;
-  border-radius: 6px;
-  margin-top: 15px;
-}
-
-.faq-contact {
-    background: #fff9e6;
-    color: #333;
-  border-left: 3px solid #d4af37;
-    }
-
-.faq-tip {
-      background: #e6f3ff;
-      color: #333;
-  border-left: 3px solid #007bff;
-}
-
-.faq-note {
-    background: #f0f0f0;
-    color: #333;
-  border-left: 3px solid #999;
-}
-
-.faq-contact a,
-  .faq-tip a,
-  .faq-note a {
-    color: #d4af37;
-    text-decoration: none;
-  font-weight: 600;
-}
-
-.faq-contact a:hover,
-  .faq-tip a:hover,
-  .faq-note a:hover {
-    text-decoration: underline;
-}
-
-.guarantee-card {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-  color: #fff;
-    border-left-color: #d4af37;
-      }
-
-.guarantee-card h3 {
-      color: #d4af37;
-    }
-
-.guarantee-card p {
-      color: #ddd;
-    }
-
-.guarantee-card li {
-      color: #ddd;
-    }
-
-.guarantee-card li:before {
-      color: #d4af37;
-  }
-
-.guarantee-text {
-      background: rgba(212, 175, 55, 0.1);
-        border-left: 3px solid #d4af37;
-  padding: 15px;
-  border-radius: 6px;
-  margin-top: 15px;
-      color: #ddd !important;
-}
-
-.cta-section {
-    text-align: center;
-  padding: 50px 30px;
-      background: #000;
-  border-radius: 12px;
-  color: #fff;
-  }
-
-.cta-section h2 {
-      color: #d4af37;
-      border-bottom-color: #d4af37;
-    margin-bottom: 30px;
-}
-
-.cta-buttons {
-      display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
-
-.btn-primary,
-  .btn-secondary {
-    display: inline-block;
-      padding: 14px 30px;
-  border-radius: 8px;
   font-size: 1rem;
-    font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
 }
 
-.btn-primary {
-  background: #d4af37;
-    color: #000;
+/* ── Sections Grid ────────────────────────────────────── */
+.support-sections {
+  padding: 60px 20px;
 }
 
-.btn-primary:hover {
-    background: #f0d960;
-      transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
+.support-sections-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.btn-secondary {
-    background: transparent;
+/* ── Support Card ─────────────────────────────────────── */
+.support-card {
+  background: #111;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  padding: 32px 28px;
+}
+
+.support-card-icon {
+  font-size: 1.75rem;
+  margin-bottom: 14px;
+}
+
+.support-card-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.support-qa {
+  margin-bottom: 20px;
+}
+
+.support-qa:last-child {
+  margin-bottom: 0;
+}
+
+.support-q {
+  font-weight: 700;
   color: #d4af37;
-    border: 2px solid #d4af37;
-    }
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
 
-.btn-secondary:hover {
-      background: #d4af37;
-        color: #000;
-  transform: translateY(-2px);
+.support-a {
+  font-size: 0.95rem;
+  color: #bbb;
+  line-height: 1.65;
+}
+
+.support-a a {
+  color: #d4af37;
+  text-decoration: none;
+}
+
+.support-a a:hover {
+  text-decoration: underline;
+}
+
+/* Guarantee card variant */
+.guarantee-card {
+  border-color: #d4af37;
+  background: linear-gradient(135deg, #111 0%, #1a1200 100%);
+}
+
+.guarantee-body {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.7;
+  margin: 0 0 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+/* ── CTA ──────────────────────────────────────────────── */
+.support-cta {
+  background: #111;
+  border-top: 1px solid #2a2a2a;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.support-cta-inner {
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.support-cta-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+}
+
+.support-cta-subtitle {
+  font-size: 1rem;
+  color: #888;
+  margin: 0 0 28px;
+}
+
+.btn-gold {
+  display: inline-block;
+  background: #d4af37;
+  color: #0a0a0a;
+  padding: 15px 36px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-gold:hover {
+  background: #e6c348;
+  transform: translateY(-1px);
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 600px) {
+  .support-hero-title {
+    font-size: 1.8rem;
   }
 
-.link-email,
-  .link-phone {
-    color: #d4af37;
-    text-decoration: none;
-  font-weight: 600;
-}
+  .support-card {
+    padding: 24px 18px;
+  }
 
-.link-email:hover,
-  .link-phone:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .support-container {
-        padding: 40px 15px;
-}
-
-  .support-header h1 {
-        font-size: 1.8rem;
-}
-
-  .support-section h2 {
-        font-size: 1.5rem;
-}
-
-  .faq-section {
-        padding: 25px;
-}
-
-  .faq-card {
-        padding: 20px;
-}
-
-  .contact-grid {
-        grid-template-columns: 1fr;
-    gap: 20px;
-}
-
-  .contact-item {
-        padding: 20px;
-}
-
-  .cta-buttons {
-        flex-direction: column;
-}
-
-      .btn-primary,
-      .btn-secondary {
-        width: 100%;
-}
-}
-
-@media (max-width: 480px) {
-  .support-header h1 {
-      font-size: 1.5rem;
-}
-
-  .support-section h2 {
-        font-size: 1.3rem;
-}
-
-  .faq-card h3 {
-        font-size: 1.1rem;
-}
-
-  .faq-card {
-        padding: 15px;
-}
-
-  .cta-section {
-        padding: 30px 20px;
-}
-
-  .btn-primary,
-      .btn-secondary {
-        padding: 12px 24px;
-    font-size: 0.9rem;
-}
+  .support-contact-bar {
+    flex-direction: column;
+    align-items: center;
+  }
 }
