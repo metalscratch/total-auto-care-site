@@ -1,169 +1,316 @@
 import React, { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import '../styles/BookingPage.css';
 
-const PACKAGE_DATA = {
-    essential: {
-          name: 'Essential Mobile Detail',
-          price: 159,
-          description: 'The perfect everyday refresh',
-          features: ['Full exterior hand wash & dry', 'Wheel & tyre clean', 'Interior vacuum', 'Dashboard & console wipe-down', 'Window clean (interior + exterior)', 'Door jambs cleaned']
-    },
-    advanced: {
-          name: 'Advanced Mobile Detail',
-          price: 219,
-          description: 'Our most popular package',
-          features: ['Everything in Essential, plus:', 'Clay bar decontamination', 'Hand wax & paint protection', 'Interior shampoo (seats & carpet)', 'Leather clean & condition', 'Tyre dressing applied', 'Engine bay light clean']
-    },
-    premium: {
-          name: 'Premium Mobile Detail',
-          price: 279,
-          description: 'Showroom finish at your door',
-          features: ['Everything in Advanced, plus:', 'Full paint decontamination', 'Two-stage machine polish', 'Premium ceramic sealant', 'Deep interior steam clean', 'Odour elimination treatment', 'Full protection coat applied']
-    }
+const PACKAGES = {
+  essential: {
+    name: 'Essential Mobile Detail',
+    price: 120,
+    duration: '2–3 hours',
+    features: [
+      'Exterior hand wash & dry',
+      'Wheel & tyre clean',
+      'Window clean (exterior)',
+      'Interior vacuum',
+      'Dashboard & console wipe',
+    ],
+  },
+  advanced: {
+    name: 'Advanced Mobile Detail',
+    price: 220,
+    duration: '4–5 hours',
+    features: [
+      'Everything in Essential',
+      'Clay bar treatment',
+      'Paint decontamination',
+      'Interior deep clean',
+      'Leather conditioning',
+      'Engine bay clean',
+    ],
+  },
+  premium: {
+    name: 'Premium Mobile Detail',
+    price: 380,
+    duration: '6–8 hours',
+    features: [
+      'Everything in Advanced',
+      'Machine polish (1-stage)',
+      'Ceramic spray coating',
+      'Full paint correction prep',
+      'Odour elimination treatment',
+      'Complimentary follow-up inspection',
+    ],
+  },
+};
+
+const NAME_TO_SLUG = {
+  'essential mobile detail': 'essential',
+  'advanced mobile detail': 'advanced',
+  'premium mobile detail': 'premium',
 };
 
 export default function BookingPage() {
-    const [searchParams] = useSearchParams();
-    const packageType = searchParams.get('package') || 'essential';
-    const package_ = PACKAGE_DATA[packageType] || PACKAGE_DATA.essential;
-    const [formData, setFormData] = useState({ fullName: '', phone: '', email: '', address: '', preferredDate: '', preferredTime: '', vehicleType: '', notes: '' });
-    const [submitted, setSubmitted] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const rawParam = (searchParams.get('package') || 'essential').toLowerCase();
+  const slug = NAME_TO_SLUG[rawParam] || rawParam;
+  const pkg = PACKAGES[slug] || PACKAGES.essential;
 
-  const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    date: '',
+    time: '',
+    vehicle: '',
+    notes: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleDepositPayment = () => {
-        setLoading(true);
-        // TODO: Stripe Checkout integration here
-        // const response = await fetch('/api/create-checkout-session', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ packageType, depositAmount: 50, customerData: formData })
-        // });
-        // const { sessionId } = await response.json();
-        // window.location.href = `https://checkout.stripe.com/pay/${sessionId}`;
-        setTimeout(() => { setSubmitted(true); setLoading(false); }, 1000);
+    setLoading(true);
+    // TODO: Stripe Checkout integration
+    // const response = await fetch('/api/create-checkout-session', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ package: slug, amount: 5000 }),
+    // });
+    // const { url } = await response.json();
+    // window.location.href = url;
+    setTimeout(() => {
+      setSubmitted(true);
+      setLoading(false);
+    }, 800);
   };
 
   const handleCallback = () => {
-        setLoading(true);
-        // TODO: Send to backend /api/request-callback
-        setTimeout(() => { setSubmitted(true); setLoading(false); }, 1000);
+    window.location.href = 'tel:+61477533479';
   };
 
   if (submitted) {
-        return (
-                <div className="booking-container">
-                        <div className="confirmation-message">
-                                  <div className="confirmation-icon">✓</div>div>
-                                  <h2>Booking Request Received</h2>h2>
-                                  <p>Your booking request has been received. We will contact you shortly to confirm availability.</p>p>
-                                  <p className="confirmation-email">We'll reach out to you at <strong>{formData.phone}</strong>strong> or <strong>{formData.email}</strong>strong></p>p>
-                                  <a href="/" className="btn-primary">Return to Home</a>a>
-                        </div>div>
-                </div>div>
-              );
-  }
-  
     return (
-          <div className="booking-container">
-                <div className="booking-header">
-                        <h1>Complete Your Booking</h1>h1>
-                        <p>Secure your car detailing service in Perth</p>p>
-                </div>div>
-                <div className="booking-content">
-                        <div className="booking-package">
-                                  <div className="package-card">
-                                              <h3>{package_.name}</h3>h3>
-                                              <p className="package-desc">{package_.description}</p>p>
-                                              <div className="package-price">
-                                                            <span className="price">${package_.price}</span>span>
-                                                            <span className="subtext">from (small to medium vehicle)</span>span>
-                                              </div>div>
-                                              <div className="package-features">
-                                                            <h4>What's Included:</h4>h4>
-                                                            <ul>
-                                                              {package_.features.map((feature, idx) => (<li key={idx}>✓ {feature}</li>li>))}
-                                                            </ul>ul>
-                                              </div>div>
-                                              <div className="trust-elements">
-                                                            <div className="trust-item"><span className="trust-icon">📍</span>span><span className="trust-text">Perth-based, mobile service</span>span></div>div>
-                                                            <div className="trust-item"><span className="trust-icon">⭐</span>span><span className="trust-text">Satisfaction guarantee</span>span></div>div>
-                                                            <div className="trust-item"><span className="trust-icon">🧪</span>span><span className="trust-text">Professional-grade products</span>span></div>div>
-                                              </div>div>
-                                  </div>div>
-                        </div>div>
-                        <div className="booking-form-section">
-                                  <form className="booking-form">
-                                              <div className="form-group">
-                                                            <label htmlFor="fullName">Full Name *</label>label>
-                                                            <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Your full name" required />
-                                              </div>div>
-                                              <div className="form-row">
-                                                            <div className="form-group">
-                                                                            <label htmlFor="phone">Phone Number *</label>label>
-                                                                            <input type="tel" id="phone" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="+61 477 533 479" required />
-                                                            </div>div>
-                                                            <div className="form-group">
-                                                                            <label htmlFor="email">Email Address *</label>label>
-                                                                            <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="your@email.com" required />
-                                                            </div>div>
-                                              </div>div>
-                                              <div className="form-group">
-                                                            <label htmlFor="address">Service Address *</label>label>
-                                                            <input type="text" id="address" name="address" value={formData.address} onChange={handleInputChange} placeholder="Your home or workplace address" required />
-                                              </div>div>
-                                              <div className="form-row">
-                                                            <div className="form-group">
-                                                                            <label htmlFor="preferredDate">Preferred Date *</label>label>
-                                                                            <input type="date" id="preferredDate" name="preferredDate" value={formData.preferredDate} onChange={handleInputChange} required />
-                                                            </div>div>
-                                                            <div className="form-group">
-                                                                            <label htmlFor="preferredTime">Preferred Time *</label>label>
-                                                                            <select id="preferredTime" name="preferredTime" value={formData.preferredTime} onChange={handleInputChange} required>
-                                                                                              <option value="">Select time</option>option>
-                                                                                              <option value="morning">Morning (8am - 12pm)</option>option>
-                                                                                              <option value="afternoon">Afternoon (12pm - 4pm)</option>option>
-                                                                                              <option value="late">Late (4pm - 6pm)</option>option>
-                                                                            </select>select>
-                                                            </div>div>
-                                              </div>div>
-                                              <div className="form-group">
-                                                            <label htmlFor="vehicleType">Vehicle Type *</label>label>
-                                                            <select id="vehicleType" name="vehicleType" value={formData.vehicleType} onChange={handleInputChange} required>
-                                                                            <option value="">Select vehicle type</option>option>
-                                                                            <option value="sedan">Sedan</option>option>
-                                                                            <option value="suv">SUV / 4WD</option>option>
-                                                                            <option value="ute">Ute</option>option>
-                                                                            <option value="van">Van</option>option>
-                                                                            <option value="truck">Truck</option>option>
-                                                                            <option value="other">Other</option>option>
-                                                            </select>select>
-                                              </div>div>
-                                              <div className="form-group">
-                                                            <label htmlFor="notes">Additional Notes</label>label>
-                                                            <textarea id="notes" name="notes" value={formData.notes} onChange={handleInputChange} placeholder="Any special requests? (optional)" rows="3" />
-                                              </div>div>
-                                              <div className="deposit-section">
-                                                            <h4>Secure Your Booking</h4>h4>
-                                                            <p className="deposit-message">Secure your booking with a $50 deposit. The remaining balance is paid after the service is completed.</p>p>
-                                                            <div className="deposit-amount"><span>Deposit:</span>span><span className="amount">$50</span>span></div>div>
-                                                            <div className="deposit-balance"><span>Balance due after service:</span>span><span className="amount">${package_.price - 50}</span>span></div>div>
-                                              </div>div>
-                                              <div className="form-buttons">
-                                                            <button type="button" className="btn-primary btn-deposit" onClick={handleDepositPayment} disabled={loading || !formData.fullName || !formData.phone || !formData.email || !formData.address || !formData.preferredDate || !formData.preferredTime || !formData.vehicleType}>
-                                                              {loading ? 'Processing...' : 'Pay $50 Deposit & Book Now'}
-                                                            </button>button>
-                                                            <button type="button" className="btn-secondary btn-callback" onClick={handleCallback} disabled={loading}>Request Callback Instead</button>button>
-                                              </div>div>
-                                              <p className="form-note">We'll confirm your booking within 24 hours. Questions? Call <a href="tel:+61477533479">0477 533 479</a>a></p>p>
-                                  </form>form>
-                        </div>div>
-                </div>div>
-          </div>div>
-        );
-}</div>
+      <div className="booking-page">
+        <div className="booking-confirmation">
+          <div className="confirmation-icon">✓</div>
+          <h2>Booking Request Received</h2>
+          <p>
+            Your booking request has been received. We will contact you shortly
+            to confirm availability.
+          </p>
+          <Link to="/" className="btn-primary">
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="booking-page">
+      <div className="booking-inner">
+        {/* Package Summary Card */}
+        <aside className="booking-package-card">
+          <div className="package-card-header">
+            <span className="package-label">Selected Package</span>
+            <h2 className="package-name">{pkg.name}</h2>
+            <div className="package-price">
+              ${pkg.price}
+              <span className="package-duration"> / {pkg.duration}</span>
+            </div>
+          </div>
+
+          <ul className="package-features">
+            {pkg.features.map((f) => (
+              <li key={f}>
+                <span className="feature-check">✓</span> {f}
+              </li>
+            ))}
+          </ul>
+
+          <Link to="/#pricing" className="change-package-link">
+            ← Change package
+          </Link>
+
+          {/* Trust Elements */}
+          <div className="trust-badges">
+            <div className="trust-badge">
+              <span className="trust-icon">📍</span>
+              <span>Perth-based &amp; mobile</span>
+            </div>
+            <div className="trust-badge">
+              <span className="trust-icon">🛡️</span>
+              <span>Satisfaction guarantee</span>
+            </div>
+            <div className="trust-badge">
+              <span className="trust-icon">✨</span>
+              <span>Professional-grade products</span>
+            </div>
+          </div>
+        </aside>
+
+        {/* Booking Form */}
+        <section className="booking-form-section">
+          <h1 className="booking-title">Book Your Detail</h1>
+          <p className="booking-subtitle">
+            Fill in your details below and we'll confirm your appointment within
+            24 hours.
+          </p>
+
+          <form className="booking-form" onSubmit={(e) => e.preventDefault()}>
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="name">Full Name *</label>
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="John Smith"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="phone">Phone Number *</label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value={form.phone}
+                  onChange={handleChange}
+                  placeholder="04xx xxx xxx"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email Address *</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="john@example.com"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="address">Service Address *</label>
+              <input
+                id="address"
+                name="address"
+                type="text"
+                value={form.address}
+                onChange={handleChange}
+                placeholder="123 Example St, Perth WA 6000"
+                required
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="date">Preferred Date *</label>
+                <input
+                  id="date"
+                  name="date"
+                  type="date"
+                  value={form.date}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="time">Preferred Time *</label>
+                <select
+                  id="time"
+                  name="time"
+                  value={form.time}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select a time</option>
+                  <option value="7:00 AM">7:00 AM</option>
+                  <option value="8:00 AM">8:00 AM</option>
+                  <option value="9:00 AM">9:00 AM</option>
+                  <option value="10:00 AM">10:00 AM</option>
+                  <option value="11:00 AM">11:00 AM</option>
+                  <option value="12:00 PM">12:00 PM</option>
+                  <option value="1:00 PM">1:00 PM</option>
+                  <option value="2:00 PM">2:00 PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="vehicle">Vehicle Type *</label>
+              <select
+                id="vehicle"
+                name="vehicle"
+                value={form.vehicle}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select vehicle type</option>
+                <option value="Sedan">Sedan</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="SUV / Crossover">SUV / Crossover</option>
+                <option value="4WD / Ute">4WD / Ute</option>
+                <option value="Van / People Mover">Van / People Mover</option>
+                <option value="Coupe / Sports">Coupe / Sports</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="notes">Additional Notes</label>
+              <textarea
+                id="notes"
+                name="notes"
+                value={form.notes}
+                onChange={handleChange}
+                rows={3}
+                placeholder="Any special requests, pet hair, heavy soiling, etc."
+              />
+            </div>
+
+            {/* Deposit Section */}
+            <div className="deposit-section">
+              <div className="deposit-info">
+                <h3 className="deposit-title">Secure Your Booking</h3>
+                <p className="deposit-desc">
+                  Secure your booking with a{' '}
+                  <strong>$50 deposit</strong>. The remaining balance of{' '}
+                  <strong>${pkg.price - 50}</strong> is paid after the service
+                  is completed.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="btn-deposit"
+                onClick={handleDepositPayment}
+                disabled={loading}
+              >
+                {loading ? 'Processing…' : 'Pay $50 Deposit & Book Now'}
+              </button>
+              <button
+                type="button"
+                className="btn-callback"
+                onClick={handleCallback}
+              >
+                Request Callback Instead
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  );
+}
