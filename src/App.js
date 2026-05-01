@@ -12,6 +12,8 @@ import ContactPage from './pages/ContactPage';
 import SupportPage from './pages/SupportPage';
 import './App.css';
 
+// Trigger redeploy - Support page fix
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
