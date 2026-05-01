@@ -9,6 +9,7 @@ import VehicleTransportPage from './pages/VehicleTransportPage';
 import BookingPage from './pages/BookingPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
+import SupportPage from './pages/SupportPage';
 import './App.css';
 
 function ScrollToTop() {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/booking"             element={<BookingPage />} />
             <Route path="/about"               element={<AboutPage />} />
             <Route path="/contact"             element={<ContactPage />} />
+              <Route path="/support" element={<SupportPage />} />
           </Routes>
         </main>
         <Footer />
