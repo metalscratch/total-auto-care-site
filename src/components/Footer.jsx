@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 
-const PHONE='0477 533 479',PHONE_HREF='tel:+61477533479',EMAIL='contact@totalautocare.au',EMAIL_HREF='mailto:contact@totalautocare.au',WA_URL='https://wa.me/61477533479?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote%20for%20car%20detailing%20in%20Perth.';
+const PHONE='0477 533 479',PHONE_HREF='tel:+61477533479',EMAIL='admin@totalautocare.au',EMAIL_HREF='mailto:admin@totalautocare.au',WA_URL='https://wa.me/61477533479?text=Hi%2C%20I%27d%20like%20to%20get%20a%20quote%20for%20car%20detailing%20in%20Perth.';
 
 export default function Footer() {
   return (
@@ -49,6 +49,7 @@ export default function Footer() {
             <ul className="footer-links">
               <li><Link to="/about">About Us</Link></li>
               <li><Link to="/contact">Contact</Link></li>
+              <li><Link to="/support">Customer Support</Link></li>
             </ul>
           </div>
         </div>
