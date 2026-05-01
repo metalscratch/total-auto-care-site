@@ -69,6 +69,7 @@ export default function Navbar() {
             <li className="nav-item"><Link to="/#pricing" className="nav-link">Pricing</Link></li>
             <li className="nav-item"><Link to="/about" className={`nav-link${isActive('/about') ? ' nav-link--active' : ''}`}>About</Link></li>
             <li className="nav-item"><Link to="/contact" className={`nav-link${isActive('/contact') ? ' nav-link--active' : ''}`}>Contact</Link></li>
+            <li className="nav-item"><Link to="/support" className={`nav-link${isActive('/support') ? ' nav-link--active' : ''}`}>Support</Link></li>
           </ul>
           <div className="nav-actions">
             <a href={PHONE_HREF} className="nav-phone">{PHONE}</a>
@@ -92,6 +93,7 @@ export default function Navbar() {
             <div className="mobile-nav-section">
               <Link to="/about" className="mobile-nav-link">About</Link>
               <Link to="/contact" className="mobile-nav-link">Contact</Link>
+              <Link to="/support" className="mobile-nav-link">Support</Link>
             </div>
           </nav>
           <div className="mobile-drawer-ctas">
