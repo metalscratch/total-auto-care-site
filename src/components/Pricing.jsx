@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import './Pricing.css';
 
 const PACKAGES = [
-  { name: 'Essential Mobile Detail', tagline: 'The perfect everyday refresh', priceSmall: 159, priceSUV: 179, popular: false, icon: '✦',
+  { slug: 'essential', name: 'Essential Mobile Detail', tagline: 'The perfect everyday refresh', priceSmall: 159, priceSUV: 179, popular: false, icon: '✦',
     includes: ['Full exterior hand wash & dry','Wheel & tyre clean','Interior vacuum','Dashboard & console wipe-down','Window clean (interior + exterior)','Door jambs cleaned'] },
-  { name: 'Advanced Mobile Detail', tagline: 'Our most popular package', priceSmall: 219, priceSUV: 249, popular: true, icon: '◆',
+  { slug: 'advanced', name: 'Advanced Mobile Detail', tagline: 'Our most popular package', priceSmall: 219, priceSUV: 249, popular: true, icon: '◆',
     includes: ['Everything in Essential, plus:','Clay bar decontamination','Hand wax & paint protection','Interior shampoo (seats & carpet)','Leather clean & condition','Tyre dressing applied','Engine bay light clean'] },
-  { name: 'Premium Mobile Detail', tagline: 'Showroom finish at your door', priceSmall: 279, priceSUV: 319, popular: false, icon: '◈',
+  { slug: 'premium', name: 'Premium Mobile Detail', tagline: 'Showroom finish at your door', priceSmall: 279, priceSUV: 319, popular: false, icon: '◈',
     includes: ['Everything in Advanced, plus:','Full paint decontamination','Two-stage machine polish','Premium ceramic sealant','Deep interior steam clean','Odour elimination treatment','Full protection coat applied'] },
 ];
 
@@ -53,7 +53,7 @@ export default function Pricing() {
                   </li>
                 ))}
               </ul>
-              <Link to={`/booking?package=${encodeURIComponent(pkg.name)}`} className={`btn btn-full${pkg.popular ? ' btn-gold' : ' pricing-btn-outline'}`}>Book This Package</Link>
+              <Link to={`/booking?package=${pkg.slug}`} className={`btn btn-full${pkg.popular ? ' btn-gold' : ' pricing-btn-outline'}`}>Book This Package</Link>
             </div>
           ))}
         </div>
