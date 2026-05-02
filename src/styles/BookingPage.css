@@ -339,3 +339,35 @@
     font-size: 1.4rem;
   }
 }
+
+/* ── Package card enhancements ────────────────────────────── */
+.package-tagline {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0 0 12px;
+  font-style: italic;
+}
+
+.package-from {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #aaa;
+}
+
+.package-vehicle-note {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 6px;
+}
+
+.feature-heading {
+  display: block !important;
+  padding-top: 4px;
+}
+
+.feature-everything {
+  font-size: 0.82rem;
+  color: #888;
+  font-style: italic;
+  font-weight: 500;
+}
