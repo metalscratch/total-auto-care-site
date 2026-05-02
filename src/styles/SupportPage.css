@@ -199,3 +199,19 @@ a.support-contact-item:hover {
     align-items: center;
   }
 }
+
+/* ── BNPL Bar ─────────────────────────────────────────── */
+.support-bnpl-bar {
+  background: #0f0f0f;
+  border-top: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+  text-align: center;
+  padding: 18px 1rem;
+}
+
+.support-bnpl-text {
+  color: #888;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
