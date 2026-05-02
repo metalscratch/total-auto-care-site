@@ -2,43 +2,50 @@ import React, { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import '../styles/BookingPage.css';
 
+// ── Package data — kept in sync with Pricing.jsx ──────────────────────────────
 const PACKAGES = {
   essential: {
     name: 'Essential Mobile Detail',
-    price: 120,
-    duration: '2–3 hours',
-    features: [
-      'Exterior hand wash & dry',
+    tagline: 'The perfect everyday refresh',
+    priceSmall: 159,
+    priceSUV: 179,
+    includes: [
+      'Full exterior hand wash & dry',
       'Wheel & tyre clean',
-      'Window clean (exterior)',
       'Interior vacuum',
-      'Dashboard & console wipe',
+      'Dashboard & console wipe-down',
+      'Window clean (interior + exterior)',
+      'Door jambs cleaned',
     ],
   },
   advanced: {
     name: 'Advanced Mobile Detail',
-    price: 220,
-    duration: '4–5 hours',
-    features: [
-      'Everything in Essential',
-      'Clay bar treatment',
-      'Paint decontamination',
-      'Interior deep clean',
-      'Leather conditioning',
-      'Engine bay clean',
+    tagline: 'Our most popular package',
+    priceSmall: 219,
+    priceSUV: 249,
+    includes: [
+      'Everything in Essential, plus:',
+      'Clay bar decontamination',
+      'Hand wax & paint protection',
+      'Interior shampoo (seats & carpet)',
+      'Leather clean & condition',
+      'Tyre dressing applied',
+      'Engine bay light clean',
     ],
   },
   premium: {
     name: 'Premium Mobile Detail',
-    price: 380,
-    duration: '6–8 hours',
-    features: [
-      'Everything in Advanced',
-      'Machine polish (1-stage)',
-      'Ceramic spray coating',
-      'Full paint correction prep',
+    tagline: 'Showroom finish at your door',
+    priceSmall: 279,
+    priceSUV: 319,
+    includes: [
+      'Everything in Advanced, plus:',
+      'Full paint decontamination',
+      'Two-stage machine polish',
+      'Premium ceramic sealant',
+      'Deep interior steam clean',
       'Odour elimination treatment',
-      'Complimentary follow-up inspection',
+      'Full protection coat applied',
     ],
   },
 };
@@ -68,6 +75,12 @@ export default function BookingPage() {
 
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Determine displayed price based on vehicle type selected in the form
+  const isSUV =
+    form.vehicle === 'SUV / Crossover' || form.vehicle === '4WD / Ute' || form.vehicle === 'Van / People Mover';
+  const displayPrice = isSUV ? pkg.priceSUV : pkg.priceSmall;
+  const remainingBalance = displayPrice - 50;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -119,16 +132,24 @@ export default function BookingPage() {
           <div className="package-card-header">
             <span className="package-label">Selected Package</span>
             <h2 className="package-name">{pkg.name}</h2>
+            <p className="package-tagline">{pkg.tagline}</p>
             <div className="package-price">
-              ${pkg.price}
-              <span className="package-duration"> / {pkg.duration}</span>
+              <span className="package-from">from </span>
+              ${isSUV ? pkg.priceSUV : pkg.priceSmall}
+            </div>
+            <div className="package-vehicle-note">
+              {isSUV ? 'SUV / 4WD / Large vehicle' : 'Small to medium vehicle'}
             </div>
           </div>
 
           <ul className="package-features">
-            {pkg.features.map((f) => (
-              <li key={f}>
-                <span className="feature-check">✓</span> {f}
+            {pkg.includes.map((f) => (
+              <li key={f} className={f.startsWith('Everything') ? 'feature-heading' : ''}>
+                {f.startsWith('Everything') ? (
+                  <span className="feature-everything">{f}</span>
+                ) : (
+                  <><span className="feature-check">✓</span> {f}</>
+                )}
               </li>
             ))}
           </ul>
@@ -288,7 +309,7 @@ export default function BookingPage() {
                 <p className="deposit-desc">
                   Secure your booking with a{' '}
                   <strong>$50 deposit</strong>. The remaining balance of{' '}
-                  <strong>${pkg.price - 50}</strong> is paid after the service
+                  <strong>${remainingBalance}</strong> is paid after the service
                   is completed.
                 </p>
               </div>
